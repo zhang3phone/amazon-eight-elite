@@ -18,8 +18,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4849,
-      "sha256": "ec41984e41f4cda418b6497ae25745db0fd92ceecafeccd98d88848b7786761f"
+      "bytes": 5172,
+      "sha256": "326cc810832118a901a3014c623ac6e12ace7f522c2de47ef03ce90ad2d73d84"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
@@ -73,8 +73,8 @@
     },
     {
       "path": "aee/setup.py",
-      "bytes": 5878,
-      "sha256": "fa51979c4c4c2a54b254df677d61a5963d78e826187297d58a1702aa622a5621"
+      "bytes": 6236,
+      "sha256": "f72362e5c4cc99d0d751b7b4b7edfcff5bbe9a5449a8caa095e8c34077c30446"
     },
     {
       "path": "aee/sp_engine.py",
@@ -93,8 +93,8 @@
     },
     {
       "path": "docs/INSTALL.md",
-      "bytes": 11697,
-      "sha256": "05d8adbc501ad7570898b821fdc7f777fe10c31f7b81fdbc915f372cec331330"
+      "bytes": 12207,
+      "sha256": "1549d2d3f3cb7df1f4b9ebf77fb631fd980f78c417d979ba28809af026f4cfe2"
     },
     {
       "path": "docs/VALIDATION.md",
@@ -113,8 +113,8 @@
     },
     {
       "path": "docs/guide.html",
-      "bytes": 47474,
-      "sha256": "3f76154ff44b7fcf5731f57d82a4cf8158c0e4cc44e9fcbfcf2fefed0d934b30"
+      "bytes": 47750,
+      "sha256": "1999899c5d95ab7580965573537534075876bf2198767ac706efb94c8137c2cb"
     },
     {
       "path": "docs/report-contract.md",
@@ -228,8 +228,8 @@
     },
     {
       "path": "skills/amazon-eight-elite/references/local-workflow.md",
-      "bytes": 4570,
-      "sha256": "f9dc4f72821d8084812ad1f334c1b964909edc9db7023fda53947cf434511972"
+      "bytes": 5032,
+      "sha256": "ea47c14a5fa2fdec2d9a94bb939f2d792d072a627ba174b30cb6cfe69a6a4143"
     },
     {
       "path": "skills/amazon-eight-elite/scripts/run.py",
@@ -253,8 +253,8 @@
     },
     {
       "path": "skills/amazon-product-research/SKILL.md",
-      "bytes": 2157,
-      "sha256": "8619e3fc64d1db267bf114273ee2a0091558290d97f696e13516f9850f04395c"
+      "bytes": 2691,
+      "sha256": "97df71f41a4c09ade72ffd7c7252f204a95fc38d0970d8ba13e161188f869ba9"
     },
     {
       "path": "skills/amazon-product-research/agents/openai.yaml",
