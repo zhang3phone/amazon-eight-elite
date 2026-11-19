@@ -1,0 +1,316 @@
+{
+  "version": "0.1.0",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 229,
+      "sha256": "9ca92149bc9cfc9cc6d94cba188bb58db12ce9fc98fe12c1378a8d172095fbc1"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 1031,
+      "sha256": "082931ace5373b5ac1705ddcd8f383fc6862adc3c3a8b857900cc1fc61e9a12b"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1088,
+      "sha256": "f2c12c345686f9d61906c8e0e4dde481d263498522676bf1e2b4b2831fca59b0"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4686,
+      "sha256": "cdbdf2390ee54d73afc10b37cdfac2b28472bc143ba55483feda267cb2ecde2a"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.txt",
+      "bytes": 3374,
+      "sha256": "0dbe33a4e4b4782da71af542ee3666be1002d5406d9c2ae5f5b643dfa50edb25"
+    },
+    {
+      "path": "aee/__init__.py",
+      "bytes": 89,
+      "sha256": "f9e229437bec3388514dc4bacc6de1f44292616196e51674326fd803fdeb1765"
+    },
+    {
+      "path": "aee/__main__.py",
+      "bytes": 47,
+      "sha256": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4"
+    },
+    {
+      "path": "aee/bounded.py",
+      "bytes": 874,
+      "sha256": "a3a296409365d41e94a7401b776ad9926ae4bfe669e015b78868cb68e9a784b1"
+    },
+    {
+      "path": "aee/cli.py",
+      "bytes": 3506,
+      "sha256": "8f2f6f41f1ecd3247006447a9417c6776c7af9c9744fd2139908480f3db6f361"
+    },
+    {
+      "path": "aee/collection.py",
+      "bytes": 5177,
+      "sha256": "acb3ff4dcba5340dd569226b3cfc382069dbe8b1820c279ebac323d8d890a646"
+    },
+    {
+      "path": "aee/common.py",
+      "bytes": 966,
+      "sha256": "e5a937a8ee84091661f6dac51894ca33a95837bb541e30c0d145f1cd8e80767c"
+    },
+    {
+      "path": "aee/pipeline.py",
+      "bytes": 4331,
+      "sha256": "2daf4c887bc4c407bada24f37c91ee824cfaf8016b3fa439c3b5f515ca2f9d8b"
+    },
+    {
+      "path": "aee/report.py",
+      "bytes": 9480,
+      "sha256": "f3e56adf678dcdf3390a3cf2ab669e01ef866d2e0f9d83d5e655fae2a813c0b1"
+    },
+    {
+      "path": "aee/schema.sql",
+      "bytes": 1618,
+      "sha256": "b88a7dfbc380673c421e3b275819a9c7393f4aba1e1f250060547607f0a24334"
+    },
+    {
+      "path": "aee/setup.py",
+      "bytes": 5878,
+      "sha256": "fa51979c4c4c2a54b254df677d61a5963d78e826187297d58a1702aa622a5621"
+    },
+    {
+      "path": "aee/sp_engine.py",
+      "bytes": 30502,
+      "sha256": "403b4c3a210b9e53e5b49ac07a4ca488bbbb984ef058429c278740ea60fcb73a"
+    },
+    {
+      "path": "aee/store.py",
+      "bytes": 8726,
+      "sha256": "63856076ceaff9b16f2fc6e18d1a6be57dbea639d1db8b4adcc5551ad8be0cba"
+    },
+    {
+      "path": "docs/INSTALL.md",
+      "bytes": 9640,
+      "sha256": "29f977c54dc11d406d0c805917fe9a02f83725bd1a25ec8fa042859515f16dff"
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "bytes": 4090,
+      "sha256": "5f760f0b7c0d7ad9eca5992c1a1bd3ad84cd5a1fb33b350d2a52ab2f3f916899"
+    },
+    {
+      "path": "docs/demo-report.html",
+      "bytes": 8592,
+      "sha256": "10f4929c3d12891e3bdd2dab6eef24e3e787fd71ec90f56073dcb144311b5f50"
+    },
+    {
+      "path": "docs/diagnosis-rules.md",
+      "bytes": 2776,
+      "sha256": "cbaf5e08c36eb5adf0c43f5fb87896a9ddba1be1e7da288ba1266ed007157001"
+    },
+    {
+      "path": "docs/guide.html",
+      "bytes": 47336,
+      "sha256": "3aa53cb343067aacf2711035a0f3d557e7e7aac8efbad0606bc928ef83328536"
+    },
+    {
+      "path": "docs/report-contract.md",
+      "bytes": 4975,
+      "sha256": "a9a81da16e2026bd57438086de87075bd90471b1d1f5bc2675df0bda6da286cd"
+    },
+    {
+      "path": "examples/collection.template.json",
+      "bytes": 574,
+      "sha256": "19ed9ddb3f3620879cd8024ee1736d6292d909bb4ce5c14ee9faee6631ff54a3"
+    },
+    {
+      "path": "examples/db.template.json",
+      "bytes": 101,
+      "sha256": "486d33a432f1a246060cb567aa342c1499ef5e68559c4e8a6e3eb32795fd5ba8"
+    },
+    {
+      "path": "examples/sp-input.template.json",
+      "bytes": 1807,
+      "sha256": "37965e955024f50ea4b0834ffb4fab42482b438716de36d94aa1e57964e881a0"
+    },
+    {
+      "path": "examples/synthetic/campaign.csv",
+      "bytes": 161,
+      "sha256": "d062b45ef66968aa69bcfb54573053ff1476d68292083c506b2e6e611311423f"
+    },
+    {
+      "path": "examples/synthetic/request.json",
+      "bytes": 635,
+      "sha256": "7316ad92db65659b092e7385aab8eaab7213553314727776bdb638e1a8c17968"
+    },
+    {
+      "path": "examples/synthetic/search_term.csv",
+      "bytes": 257,
+      "sha256": "a5ab00657f4424a79fa0c366f9ca52e10fa36a4ed9256cd454fe4074fe3f33c8"
+    },
+    {
+      "path": "examples/synthetic/sp-input.json",
+      "bytes": 1909,
+      "sha256": "c11b7ffbb429843d17ec058bacdcfd9c5562b449afdfa96cb14a1ed82cef4144"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 480,
+      "sha256": "212d672ed7b62a9d9c6e3347f556418d8fdb988d0208a0ed84595282d9e90820"
+    },
+    {
+      "path": "scripts/export_public.py",
+      "bytes": 2546,
+      "sha256": "b57980e825342284d1b75c0149eff8075f477c101662ce5170a23ae127c48d45"
+    },
+    {
+      "path": "skills/amazon-ads-diagnosis/SKILL.md",
+      "bytes": 1817,
+      "sha256": "78cbc4d23ca798d96bdd231a0063ee8c1370a9fd57e8111bd1b48ae19b068e36"
+    },
+    {
+      "path": "skills/amazon-ads-diagnosis/agents/openai.yaml",
+      "bytes": 305,
+      "sha256": "d2ed3a34687912e4856d73a29c6fef175123c7c7a9e012de62579176a713c1d2"
+    },
+    {
+      "path": "skills/amazon-ads-diagnosis/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-compliance-screen/SKILL.md",
+      "bytes": 2158,
+      "sha256": "64b22985a30d3a8c0bb14a2532f2b24ef2ab59f33ab25053ffb4c4b13c6283f4"
+    },
+    {
+      "path": "skills/amazon-compliance-screen/agents/openai.yaml",
+      "bytes": 309,
+      "sha256": "cc9e3bef801e602f2c9870b9cc491fbb43c399c711f2c3009d407e6addc513b9"
+    },
+    {
+      "path": "skills/amazon-compliance-screen/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-daily-monitor/SKILL.md",
+      "bytes": 2265,
+      "sha256": "86153b33796859badbec585d9a6cf3963f39f37d3578d29d1e2a0a9e7bc29a94"
+    },
+    {
+      "path": "skills/amazon-daily-monitor/agents/openai.yaml",
+      "bytes": 305,
+      "sha256": "ae7676a1e990fd0a741b64428b878626e7ece4590a6a14fbcf7e458ede68bf3a"
+    },
+    {
+      "path": "skills/amazon-daily-monitor/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-eight-elite/SKILL.md",
+      "bytes": 2864,
+      "sha256": "ae92f9c5301878923bc80a44f683300fe7271d484fc1fe9961b236c6415fdf40"
+    },
+    {
+      "path": "skills/amazon-eight-elite/agents/openai.yaml",
+      "bytes": 341,
+      "sha256": "43e87ab9e9e81e29d47ea0dae2cbcee64f32c5f1842ccdfe6e0a4e5415c1e99b"
+    },
+    {
+      "path": "skills/amazon-eight-elite/references/local-workflow.md",
+      "bytes": 3874,
+      "sha256": "fa4eb8207fbfc5a5b9f5da8b6de4bf4e9affc4d875b1062ec7cc79888ab4dfcd"
+    },
+    {
+      "path": "skills/amazon-eight-elite/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-listing-optimization/SKILL.md",
+      "bytes": 2236,
+      "sha256": "3be2e2d7bbe38f636cf7cc01072bf5cf5217957855618838727eada4571c796f"
+    },
+    {
+      "path": "skills/amazon-listing-optimization/agents/openai.yaml",
+      "bytes": 316,
+      "sha256": "0ca09b1f025afb2ca8838176b07b51778250fb89b7b4f4f805ec83b24f21f85f"
+    },
+    {
+      "path": "skills/amazon-listing-optimization/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-product-research/SKILL.md",
+      "bytes": 2157,
+      "sha256": "8619e3fc64d1db267bf114273ee2a0091558290d97f696e13516f9850f04395c"
+    },
+    {
+      "path": "skills/amazon-product-research/agents/openai.yaml",
+      "bytes": 308,
+      "sha256": "d363df67355795b8d5508b03b53c189b2ddacb2dbc5a3f88190836c2332d00f8"
+    },
+    {
+      "path": "skills/amazon-product-research/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-profit-analysis/SKILL.md",
+      "bytes": 2458,
+      "sha256": "e2bf3b5f27e60e67189a60a64eeecb376a237d1feaeacb99fd8a65dd3fe259d4"
+    },
+    {
+      "path": "skills/amazon-profit-analysis/agents/openai.yaml",
+      "bytes": 307,
+      "sha256": "1a38c9219eeacf405affcad215b7a80667fdafe75768aabe0ffaa69414d46f05"
+    },
+    {
+      "path": "skills/amazon-profit-analysis/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-supply-chain/SKILL.md",
+      "bytes": 2160,
+      "sha256": "c3f3399d0f7f18bedc8dd577479d6229e08129e8d2a68d43e1ad6f73f72de9ed"
+    },
+    {
+      "path": "skills/amazon-supply-chain/agents/openai.yaml",
+      "bytes": 304,
+      "sha256": "25074920544caacffb5621252aa2888572030fcc9d6570f3985e3bf165eb9eee"
+    },
+    {
+      "path": "skills/amazon-supply-chain/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "skills/amazon-weekly-review/SKILL.md",
+      "bytes": 2188,
+      "sha256": "149924a3769a2ef09884cc125f84359a25e097194fc5b0ebe3841bde8054741b"
+    },
+    {
+      "path": "skills/amazon-weekly-review/agents/openai.yaml",
+      "bytes": 305,
+      "sha256": "687fbe6d5dfbfe53a83691acc3f75cf4adcec68d41a6f39fc1fd031ec2a4a8bf"
+    },
+    {
+      "path": "skills/amazon-weekly-review/scripts/run.py",
+      "bytes": 558,
+      "sha256": "506dc40ff96f9ac6f182556079c3f29b4e9140e122ec4ee1f9ae0da091747843"
+    },
+    {
+      "path": "tests/test_local_pipeline.py",
+      "bytes": 8412,
+      "sha256": "5e639e2a967b9492f2fc06aa2b1326b50f06212e8a9b047b581b42942b4ff82d"
+    },
+    {
+      "path": "tests/test_sp_engine.py",
+      "bytes": 15825,
+      "sha256": "8cd7f7e9e841203a68939288e9eef734b9e49841f12851120975ace930949d50"
+    }
+  ],
+  "scan": "allowlist and generic secret/private-path scan passed; human release review still required"
+}

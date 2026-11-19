@@ -1,0 +1,74 @@
+{
+  "account_alias": null,
+  "marketplace": null,
+  "currency": null,
+  "timezone": null,
+  "advertiser_type": null,
+  "ad_product": "SP",
+  "period": {
+    "start": null,
+    "end": null
+  },
+  "attribution_window_days": null,
+  "reporting_lag_hours": 24,
+  "number_format": "decimal_dot",
+  "business_goal": null,
+  "rules": {
+    "target_acos": null,
+    "minimum_clicks": null,
+    "minimum_orders": null,
+    "zero_order_spend_limit": null
+  },
+  "reports": [
+    {
+      "type": "campaign",
+      "path": null,
+      "generated_at": null,
+      "scope_confirmed": false,
+      "granularity": "daily",
+      "sheet": null,
+      "header_row": 1,
+      "date_format": "%Y-%m-%d",
+      "encoding": "utf-8-sig",
+      "delimiter": null,
+      "extra_dimensions": [],
+      "columns": {
+        "date": "Date",
+        "campaign_id": "Campaign ID",
+        "campaign_name": "Campaign Name",
+        "impressions": "Impressions",
+        "clicks": "Clicks",
+        "spend": "Spend",
+        "orders": "Purchases",
+        "sales": "Sales"
+      }
+    },
+    {
+      "type": "search_term",
+      "path": null,
+      "generated_at": null,
+      "scope_confirmed": false,
+      "granularity": "daily",
+      "sheet": null,
+      "header_row": 1,
+      "date_format": "%Y-%m-%d",
+      "encoding": "utf-8-sig",
+      "delimiter": null,
+      "extra_dimensions": [],
+      "columns": {
+        "date": "Date",
+        "campaign_id": "Campaign ID",
+        "campaign_name": "Campaign Name",
+        "impressions": "Impressions",
+        "clicks": "Clicks",
+        "spend": "Spend",
+        "orders": "Purchases",
+        "sales": "Sales",
+        "ad_group_id": "Ad Group ID",
+        "search_term": "Customer Search Term",
+        "target": "Targeting",
+        "match_type": "Match Type"
+      }
+    }
+  ]
+}

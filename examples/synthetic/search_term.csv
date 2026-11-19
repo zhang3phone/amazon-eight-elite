@@ -1,0 +1,3 @@
+Date,Campaign ID,Campaign Name,Ad Group ID,Customer Search Term,Impressions,Clicks,Spend,Purchases,Sales
+2025-01-01,s_c1,Synthetic campaign,s_g1,synthetic related,800,40,30,5,250
+2025-01-01,s_c1,Synthetic campaign,s_g1,synthetic irrelevant,200,20,30,0,0

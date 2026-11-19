@@ -1,0 +1,72 @@
+{
+  "account_alias": "SYNTHETIC_ONLY",
+  "marketplace": "US",
+  "currency": "USD",
+  "timezone": "America/Los_Angeles",
+  "advertiser_type": "seller",
+  "ad_product": "SP",
+  "period": {
+    "start": "2025-01-01",
+    "end": "2025-01-01"
+  },
+  "attribution_window_days": 7,
+  "reporting_lag_hours": 24,
+  "number_format": "decimal_dot",
+  "business_goal": "SYNTHETIC TEST ONLY",
+  "rules": {
+    "target_acos": 0.25,
+    "minimum_clicks": 10,
+    "minimum_orders": 3,
+    "zero_order_spend_limit": 25
+  },
+  "reports": [
+    {
+      "type": "campaign",
+      "path": "../../.local/collected/campaign.csv",
+      "generated_at": "2025-02-01T12:00:00+00:00",
+      "scope_confirmed": true,
+      "granularity": "daily",
+      "sheet": null,
+      "header_row": 1,
+      "date_format": "%Y-%m-%d",
+      "encoding": "utf-8-sig",
+      "delimiter": null,
+      "extra_dimensions": [],
+      "columns": {
+        "date": "Date",
+        "campaign_id": "Campaign ID",
+        "campaign_name": "Campaign Name",
+        "impressions": "Impressions",
+        "clicks": "Clicks",
+        "spend": "Spend",
+        "orders": "Purchases",
+        "sales": "Sales"
+      }
+    },
+    {
+      "type": "search_term",
+      "path": "../../.local/collected/search_term.csv",
+      "generated_at": "2025-02-01T12:00:00+00:00",
+      "scope_confirmed": true,
+      "granularity": "daily",
+      "sheet": null,
+      "header_row": 1,
+      "date_format": "%Y-%m-%d",
+      "encoding": "utf-8-sig",
+      "delimiter": null,
+      "extra_dimensions": [],
+      "columns": {
+        "date": "Date",
+        "campaign_id": "Campaign ID",
+        "campaign_name": "Campaign Name",
+        "impressions": "Impressions",
+        "clicks": "Clicks",
+        "spend": "Spend",
+        "orders": "Purchases",
+        "sales": "Sales",
+        "ad_group_id": "Ad Group ID",
+        "search_term": "Customer Search Term"
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "source": "synthetic",
+  "account_alias": "SYNTHETIC_ONLY",
+  "marketplace": "US",
+  "period": {
+    "start": "2025-01-01",
+    "end": "2025-01-01"
+  },
+  "captured_at": "2025-02-01T13:00:00+00:00",
+  "scope_confirmed": true,
+  "reports": [
+    {
+      "type": "campaign",
+      "path": "campaign.csv",
+      "generated_at": "2025-02-01T12:00:00+00:00",
+      "download_completed": true,
+      "report_scope_verified": true
+    },
+    {
+      "type": "search_term",
+      "path": "search_term.csv",
+      "generated_at": "2025-02-01T12:00:00+00:00",
+      "download_completed": true,
+      "report_scope_verified": true
+    }
+  ]
+}

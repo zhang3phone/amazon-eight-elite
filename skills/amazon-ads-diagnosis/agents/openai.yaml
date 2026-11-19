@@ -1,0 +1,4 @@
+interface:
+  display_name: "广告诊断"
+  short_description: "根据实际资料生成广告诊断结果，记录数据日期、证据及缺口，不自动更改店铺后台"
+  default_prompt: "使用 $amazon-ads-diagnosis 处理我的亚马逊运营需求，先核对资料和日期，不改后台。"

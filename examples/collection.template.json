@@ -1,0 +1,29 @@
+{
+  "source": "ziniao_ui",
+  "account_alias": null,
+  "marketplace": null,
+  "period": {
+    "start": null,
+    "end": null
+  },
+  "captured_at": null,
+  "scope_confirmed": false,
+  "reports": [
+    {
+      "type": "campaign",
+      "path": null,
+      "generated_at": null,
+      "download_completed": false,
+      "report_scope_verified": false,
+      "ui_evidence": null
+    },
+    {
+      "type": "search_term",
+      "path": null,
+      "generated_at": null,
+      "download_completed": false,
+      "report_scope_verified": false,
+      "ui_evidence": null
+    }
+  ]
+}
