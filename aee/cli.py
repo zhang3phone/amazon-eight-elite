@@ -17,6 +17,7 @@ def main(argv=None):
         q=sub.add_parser(command);q.add_argument('--db',required=True);q.add_argument('--confirm-db',required=True);q.add_argument('--apply',action='store_true')
     q=sub.add_parser('collect');q.add_argument('--request',required=True);q.add_argument('--output',required=True)
     q=sub.add_parser('inspect');q.add_argument('file');q.add_argument('--sheet');q.add_argument('--header-row',type=int,default=1)
+    q=sub.add_parser('inspect-workbook');q.add_argument('file')
     q=sub.add_parser('run');q.add_argument('--config',required=True);q.add_argument('--collection',required=True);q.add_argument('--db',required=True);q.add_argument('--output',required=True)
     q=sub.add_parser('db-verify');q.add_argument('--db',required=True);q.add_argument('--batch',required=True)
     q=sub.add_parser('export-html');q.add_argument('--db',required=True);q.add_argument('--batch',required=True);q.add_argument('--output',required=True)
@@ -37,6 +38,9 @@ def main(argv=None):
         elif a.command=='inspect':
             from .sp_engine import inspect_file
             r=inspect_file(Path(a.file),{'sheet':a.sheet,'header_row':a.header_row})
+        elif a.command=='inspect-workbook':
+            from .workbook import sheets
+            r=sheets(a.file)
         elif a.command=='run':
             from .pipeline import run
             r=run(a.config,a.collection,a.db,a.output)

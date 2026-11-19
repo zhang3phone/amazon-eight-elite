@@ -47,16 +47,20 @@ def collect(request_path, output):
     manifest={k:request[k] for k in ('source','account_alias','marketplace','period','captured_at')}
     manifest.update({'format_version':1,'verified_at':now(),'scope_confirmed':True,'reports':[],
                      'status':'files_verified_not_business_validated','synthetic':request['source']=='synthetic'})
+    stored={}
     for item,path,blob,structure in prepared:
-        filename=item['type']+path.suffix.lower();dest=output/filename
-        with dest.open('xb') as f:f.write(blob)
-        dest.chmod(0o600)
+        key=(digest(blob),path.suffix.lower())
+        if key not in stored:
+            filename=item['type']+path.suffix.lower();dest=output/filename
+            with dest.open('xb') as f:f.write(blob)
+            dest.chmod(0o600);stored[key]=filename
+        filename=stored[key];dest=output/filename
         require(digest(dest.read_bytes())==digest(blob),'文件保存后校验失败')
         manifest['reports'].append({'type':item['type'],'path':filename,'sha256':digest(blob),'bytes':len(blob),
            'original_name':path.name,'headers':structure['headers'],'data_rows':structure['data_rows'],
-           'ui_evidence':item.get('ui_evidence'),'generated_at':item.get('generated_at')})
+           'sheet':structure['sheet'],'ui_evidence':item.get('ui_evidence'),'generated_at':item.get('generated_at')})
     write_new(output/'collection.json',manifest)
-    return {'status':manifest['status'],'reports':len(prepared),'directory':str(output)}
+    return {'status':manifest['status'],'reports':len(prepared),'unique_files':len(stored),'directory':str(output)}
 
 def validate_handoff(config,config_path,manifest_path):
     manifest_path=Path(manifest_path).resolve();manifest=load(manifest_path)

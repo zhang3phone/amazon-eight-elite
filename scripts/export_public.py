@@ -16,8 +16,8 @@ def allowed(p):
     if parts[0]=='aee':return len(parts)==2 and p.suffix in ('.py','.sql')
     if parts[0]=='skills':return p.name in ('SKILL.md','openai.yaml','run.py') or ('references'in parts and p.suffix=='.md')
     if parts[0]=='tests':return len(parts)==2 and p.name.startswith('test_') and p.suffix=='.py'
-    if parts[0]=='docs':return len(parts)==2 and p.suffix in ('.md','.html')
-    if parts[0]=='examples':return p.suffix in ('.json','.csv') and len(parts)<=3
+    if parts[0]=='docs':return len(parts)==2 and p.name in {'INSTALL.md','VALIDATION.md','demo-report.html','diagnosis-rules.md','guide.html','report-contract.md'}
+    if parts[0]=='examples':return rel.as_posix() in {'examples/collection.template.json','examples/db.template.json','examples/native-bulk.template.json','examples/sp-input.template.json','examples/synthetic/campaign.csv','examples/synthetic/search_term.csv','examples/synthetic/request.json','examples/synthetic/sp-input.json'}
     if parts[0]=='scripts':return len(parts)==2 and p.name=='export_public.py'
     return False
 
@@ -36,7 +36,7 @@ def main():
     for path in files:
         rel=path.relative_to(ROOT);dest=output/rel;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(path,dest)
         blob=dest.read_bytes();entries.append({'path':rel.as_posix(),'bytes':len(blob),'sha256':hashlib.sha256(blob).hexdigest()})
-    (output/'PUBLIC_MANIFEST.json').write_text(json.dumps({'version':'0.1.0','files':entries,'scan':'allowlist and generic secret/private-path scan passed; human release review still required'},ensure_ascii=False,indent=2))
+    (output/'PUBLIC_MANIFEST.json').write_text(json.dumps({'version':__import__('runpy').run_path(str(ROOT/'aee/__init__.py'))['__version__'],'files':entries,'scan':'allowlist and generic secret/private-path scan passed; human release review still required'},ensure_ascii=False,indent=2))
     print(json.dumps({'files':len(entries),'output':str(output),'published':False},ensure_ascii=False))
 
 if __name__=='__main__':main()

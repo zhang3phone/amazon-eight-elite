@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "files": [
     {
       "path": ".gitignore",
@@ -18,8 +18,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 4686,
-      "sha256": "cdbdf2390ee54d73afc10b37cdfac2b28472bc143ba55483feda267cb2ecde2a"
+      "bytes": 4849,
+      "sha256": "ec41984e41f4cda418b6497ae25745db0fd92ceecafeccd98d88848b7786761f"
     },
     {
       "path": "THIRD_PARTY_NOTICES.txt",
@@ -29,7 +29,7 @@
     {
       "path": "aee/__init__.py",
       "bytes": 89,
-      "sha256": "f9e229437bec3388514dc4bacc6de1f44292616196e51674326fd803fdeb1765"
+      "sha256": "ea8abe5b608da547fcca2f43ef791d0e735fc465c73a2d79fd2edd3b28ebbf6d"
     },
     {
       "path": "aee/__main__.py",
@@ -43,13 +43,13 @@
     },
     {
       "path": "aee/cli.py",
-      "bytes": 3506,
-      "sha256": "8f2f6f41f1ecd3247006447a9417c6776c7af9c9744fd2139908480f3db6f361"
+      "bytes": 3684,
+      "sha256": "a0d1e042471346ba3fa3f7c87a3e11992525a6fc3c2ec16ff3d095a5c592243e"
     },
     {
       "path": "aee/collection.py",
-      "bytes": 5177,
-      "sha256": "acb3ff4dcba5340dd569226b3cfc382069dbe8b1820c279ebac323d8d890a646"
+      "bytes": 5405,
+      "sha256": "c610e087f410ffcfb1678f4b8f489d121286af7c55112f812c92b7bba4590b7b"
     },
     {
       "path": "aee/common.py",
@@ -58,13 +58,13 @@
     },
     {
       "path": "aee/pipeline.py",
-      "bytes": 4331,
-      "sha256": "2daf4c887bc4c407bada24f37c91ee824cfaf8016b3fa439c3b5f515ca2f9d8b"
+      "bytes": 4971,
+      "sha256": "9a099216411c0cf43438e3007691579d11d07370d13fb497bfa852415110bafb"
     },
     {
       "path": "aee/report.py",
-      "bytes": 9480,
-      "sha256": "f3e56adf678dcdf3390a3cf2ab669e01ef866d2e0f9d83d5e655fae2a813c0b1"
+      "bytes": 11268,
+      "sha256": "48f8ebc60ad775ace06b445615eca1ab811efc9bd65dfa62280e26c1da846124"
     },
     {
       "path": "aee/schema.sql",
@@ -78,28 +78,33 @@
     },
     {
       "path": "aee/sp_engine.py",
-      "bytes": 30502,
-      "sha256": "403b4c3a210b9e53e5b49ac07a4ca488bbbb984ef058429c278740ea60fcb73a"
+      "bytes": 35275,
+      "sha256": "887707be6677debe48081fefaa95f91dfa4dd8f4246c9972a47408feb9acb052"
     },
     {
       "path": "aee/store.py",
-      "bytes": 8726,
-      "sha256": "63856076ceaff9b16f2fc6e18d1a6be57dbea639d1db8b4adcc5551ad8be0cba"
+      "bytes": 8763,
+      "sha256": "b0ee7024fbf15b9fd383b7ac9670a3725c838f77ab72b2fbd4d301c98cc303d0"
+    },
+    {
+      "path": "aee/workbook.py",
+      "bytes": 855,
+      "sha256": "8da7ff294cbdcfb65fb9c734baca0e79755f9a0c4a6511c5f2f6c5e2e179ce61"
     },
     {
       "path": "docs/INSTALL.md",
-      "bytes": 9640,
-      "sha256": "29f977c54dc11d406d0c805917fe9a02f83725bd1a25ec8fa042859515f16dff"
+      "bytes": 11697,
+      "sha256": "05d8adbc501ad7570898b821fdc7f777fe10c31f7b81fdbc915f372cec331330"
     },
     {
       "path": "docs/VALIDATION.md",
-      "bytes": 4090,
-      "sha256": "5f760f0b7c0d7ad9eca5992c1a1bd3ad84cd5a1fb33b350d2a52ab2f3f916899"
+      "bytes": 2528,
+      "sha256": "ab97a3fe65abebba6ea38656ee87c2b75a8d99337c8c0cf769d534cf07474766"
     },
     {
       "path": "docs/demo-report.html",
-      "bytes": 8592,
-      "sha256": "10f4929c3d12891e3bdd2dab6eef24e3e787fd71ec90f56073dcb144311b5f50"
+      "bytes": 8930,
+      "sha256": "b1e4d25e5a0eb72143c53a660bd0859e519bdce096a7681741c1594d3b70a0ea"
     },
     {
       "path": "docs/diagnosis-rules.md",
@@ -108,13 +113,13 @@
     },
     {
       "path": "docs/guide.html",
-      "bytes": 47336,
-      "sha256": "3aa53cb343067aacf2711035a0f3d557e7e7aac8efbad0606bc928ef83328536"
+      "bytes": 47474,
+      "sha256": "3f76154ff44b7fcf5731f57d82a4cf8158c0e4cc44e9fcbfcf2fefed0d934b30"
     },
     {
       "path": "docs/report-contract.md",
-      "bytes": 4975,
-      "sha256": "a9a81da16e2026bd57438086de87075bd90471b1d1f5bc2675df0bda6da286cd"
+      "bytes": 8216,
+      "sha256": "daf95d2d03ae3354376005e09278da57354c940855b1cabfdd61709935873946"
     },
     {
       "path": "examples/collection.template.json",
@@ -125,6 +130,11 @@
       "path": "examples/db.template.json",
       "bytes": 101,
       "sha256": "486d33a432f1a246060cb567aa342c1499ef5e68559c4e8a6e3eb32795fd5ba8"
+    },
+    {
+      "path": "examples/native-bulk.template.json",
+      "bytes": 2438,
+      "sha256": "c64cb7e9b6360f603bb2b37bda49c416421dff394baa6b3805df8650e71c2032"
     },
     {
       "path": "examples/sp-input.template.json",
@@ -154,17 +164,17 @@
     {
       "path": "pyproject.toml",
       "bytes": 480,
-      "sha256": "212d672ed7b62a9d9c6e3347f556418d8fdb988d0208a0ed84595282d9e90820"
+      "sha256": "2485308d93ad3e09c8e214d961c4823b3a085a816638332ee0fedd6ce513d648"
     },
     {
       "path": "scripts/export_public.py",
-      "bytes": 2546,
-      "sha256": "b57980e825342284d1b75c0149eff8075f477c101662ce5170a23ae127c48d45"
+      "bytes": 2946,
+      "sha256": "ea563ec85b6579b5cef210b703e680d2f861b7e384a9d6c09a70d19b884d45b7"
     },
     {
       "path": "skills/amazon-ads-diagnosis/SKILL.md",
-      "bytes": 1817,
-      "sha256": "78cbc4d23ca798d96bdd231a0063ee8c1370a9fd57e8111bd1b48ae19b068e36"
+      "bytes": 2025,
+      "sha256": "73c0a82ba407222322d4682c1c93232af8a20ee064233a8f8e181eb461930463"
     },
     {
       "path": "skills/amazon-ads-diagnosis/agents/openai.yaml",
@@ -218,8 +228,8 @@
     },
     {
       "path": "skills/amazon-eight-elite/references/local-workflow.md",
-      "bytes": 3874,
-      "sha256": "fa4eb8207fbfc5a5b9f5da8b6de4bf4e9affc4d875b1062ec7cc79888ab4dfcd"
+      "bytes": 4570,
+      "sha256": "f9dc4f72821d8084812ad1f334c1b964909edc9db7023fda53947cf434511972"
     },
     {
       "path": "skills/amazon-eight-elite/scripts/run.py",
@@ -305,6 +315,16 @@
       "path": "tests/test_local_pipeline.py",
       "bytes": 8412,
       "sha256": "5e639e2a967b9492f2fc06aa2b1326b50f06212e8a9b047b581b42942b4ff82d"
+    },
+    {
+      "path": "tests/test_native_workbook.py",
+      "bytes": 10837,
+      "sha256": "574d10f1e7c67a45e715f6b07233c1e5bc8f55341930110105bc66f0bc42820d"
+    },
+    {
+      "path": "tests/test_public_export.py",
+      "bytes": 719,
+      "sha256": "59404508b3f3b2e95569b435085780f4ef54e6552cc1da4948186c0242abf0b7"
     },
     {
       "path": "tests/test_sp_engine.py",

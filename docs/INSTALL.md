@@ -1,6 +1,6 @@
 # 安装与第一次运行
 
-这是 **0.1.0 源目录预览版**。以下命令在完整项目目录运行。不要只下载一个 SKILL.md，也不要把私有运行目录上传 GitHub。
+这是 **0.2.0 源目录预览版**。以下命令在完整项目目录运行。不要只下载一个 SKILL.md，也不要把私有运行目录上传 GitHub。
 
 ## 1. 前提
 
@@ -120,7 +120,7 @@ python3 -m aee install-skills --target "$HOME/.codex/skills" --apply
 
 有任一同名目标就停止且不覆盖。已有私人技能的用户可先选另一个目录检查、比较差异，再自行决定替换；本安装器不替用户做覆盖或全局配置修改。目录采样通过后按所用 Codex 的技能发现方式加载；必要时刷新技能列表或重开对话。
 
-安装器生成本机 `scripts/runtime.json` 映射到这个完整源目录；请保持源目录位置稳定，移动后重新检查并安装映射。**0.1.0 支持源目录调用，不把 wheel 单独安装作为完整技能发行方式。**
+安装器生成本机 `scripts/runtime.json` 映射到这个完整源目录；请保持源目录位置稳定，移动后重新检查并安装映射。**0.2.0 支持源目录调用，不把 wheel 单独安装作为完整技能发行方式。**
 
 ## 6. 使用真实紫鸟数据
 
@@ -151,3 +151,23 @@ AEE_TEST_DB_CONFIG=/tmp/aee-demo/db.json python3 -m unittest discover -s tests -
 - 归因不成熟：延后复核，不能把最近几天零订单直接当浪费。
 - 输出目录已存在：指定新目录，原结果不覆盖。
 - 真实金额建议缺失：需要当前设置、成本、履约费、库存与利润目标；基础两表不能产生可靠的具体调价金额。
+
+## 8. 原生带 ID 的批量下载文件
+
+在自己已登录的官方 Bulk Operations 页面，使用 Download campaigns 只读导出，不使用 Upload。重新打开窗口后，日期与选项可能重置，务必重新核对。包含 SP 数据及 SP 搜索词数据；如历史零曝光明细过大，明确选择实际需要的范围并在报告中注明。
+
+```sh
+python3 -m aee inspect-workbook /path/to/private/native.xlsx
+python3 -m aee inspect /path/to/private/native.xlsx --sheet 'Sponsored Products Campaigns'
+python3 -m aee inspect /path/to/private/native.xlsx --sheet 'SP Search Term Report'
+```
+
+复制 collection.template.json 到私有目录：两个报告 path 均填写下载原件，sheet 分别填写经核实的两个工作表；其他范围与生成时刻照实填写。collect 会按哈希保留一份本地原件，两份逻辑元数据保留各自工作表。
+
+复制 native-bulk.template.json 到私有目录，填写店铺、站点、币种、归因窗口等。两个报告 path 指向 collection.json 所记录的同一归档文件。默认精确筛选 Product/Entity；实际字段或值不符时先核对，不能靠相似列名替代。
+
+仍使用 `run --config … --collection … --db … --output …`，无 schema 升级。原始全表行和分析筛选行的计数分开验证。业务时区未知时保留 `timezone_confirmed: false`，只展示事实与观察；核实后再开启成熟度复核。
+
+### 原始指标矛盾与观察模式（0.2.0）
+
+`quality_mode` 默认 `strict`，曝光/点击/花费等内部矛盾会停止。先核对原始单元格和报表来源；如需保留事实用于审计，可明确设置 `preserve_observe`。该模式保留原值与全期金额，在 HTML 和 metrics.json 标记来源行，受影响搜索对象强制观察，异常行不进入成熟指标。它不修正平台数据、不证明无效点击，也不绕过缺失 ID、负数、范围冲突或重复行校验。`timezone_confirmed:false` 会将全部数据设为未成熟；不得用猜测时区生成优化候选。

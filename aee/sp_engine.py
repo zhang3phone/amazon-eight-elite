@@ -160,6 +160,10 @@ def inspect_file(path, spec):
 
 
 def validate_config(config, now=None):
+    require(config.get('quality_mode','strict') in ('strict','preserve_observe'),'quality_mode 需 strict 或 preserve_observe')
+    require(type(config.get('timezone_confirmed',True)) is bool,'timezone_confirmed 需布尔值')
+    notes=config.get('analysis_notes',[])
+    require(isinstance(notes,list) and len(notes)<=30 and all(isinstance(n,str) and len(n)<=2000 for n in notes),'analysis_notes 需最多30条说明字符串')
     for field in ("account_alias", "marketplace", "currency", "timezone", "advertiser_type"):
         require(isinstance(config.get(field), str) and config[field].strip(), f"缺少业务元数据: {field}")
     require(config.get("ad_product") == "SP", "首版仅支持 SP；SB/SD 需另核口径")
@@ -224,13 +228,22 @@ def metrics(total):
 def read_report(spec, config, base, validated):
     zone, start, end, window, lag, asof, _ = validated
     allowed_spec = {"type", "path", "generated_at", "scope_confirmed", "granularity", "sheet", "header_row",
-                    "date_format", "encoding", "delimiter", "extra_dimensions", "columns"}
+                    "date_format", "encoding", "delimiter", "extra_dimensions", "columns", "row_filter"}
     require(set(spec) <= allowed_spec, "报表配置有未知字段；币种、归因窗口等统一在顶层确认，不能忽略分表差异")
     require(spec.get("scope_confirmed") is True, f"{spec['type']}: 需确认原始文件的店铺/站点/币种/SP 范围")
     require(isinstance(spec.get("path"), str) and spec["path"].strip(), f"{spec['type']}: 缺少 path")
     path = (base / spec["path"]).resolve()
     headers, rows, sheet = read_table(path, spec)
     require(rows, f"{spec['type']}: 空报表，不把缺数据视为零表现")
+    raw_row_count=len(rows)
+    filters=spec.get('row_filter',{})
+    require(isinstance(filters,dict),'row_filter 需精确的列名/值列表映射')
+    for column,values in filters.items():
+        require(column in headers and isinstance(values,list) and values and
+                all(isinstance(v,str) and v for v in values),'row_filter 列不存在或值列表无效')
+    if filters:
+        rows=[(n,row) for n,row in rows if all(row[column] is not None and str(row[column]) in values for column,values in filters.items())]
+        require(rows,'row_filter 没有匹配数据，停止而非当零表现')
     columns = spec.get("columns")
     require(isinstance(columns, dict), "columns 需要显式映射对象")
     require(set(columns) <= ALLOWED, "columns 包含未知规范字段，请将其他分组列放入 extra_dimensions")
@@ -257,6 +270,17 @@ def read_report(spec, config, base, validated):
     mapped_rows, seen = [], set()
     for row_number, source in rows:
         record = {field:str(source[columns[field]]).strip() if source[columns[field]] is not None else "" for field in TEXT if field in columns}
+        for field in ('campaign_id','ad_group_id','target_id'):
+            if field not in columns or source[columns[field]] is None:continue
+            raw_id=source[columns[field]]
+            require(not isinstance(raw_id,bool),f'{field}: 布尔值不是实体 ID')
+            if isinstance(raw_id,(int,float,Decimal)):
+                value=Decimal(str(raw_id))
+                require(value.is_finite() and value>0 and value==value.to_integral_value() and value<Decimal('1e15'),
+                        f'{field}: 数值 ID 无效或超过 Excel 15位精度范围；需平台文本原值')
+                record[field]=str(int(value))
+            else:
+                require(not re.fullmatch(r'\d+(?:\.\d+)?[eE][+-]?\d+',record[field]),f'{field}: 科学计数法 ID 不能恢复原值')
         for field in required.intersection(TEXT):
             require(record.get(field), f"{spec['type']} 第 {row_number} 行缺少标识: {field}")
         for field in SCOPE:
@@ -280,19 +304,28 @@ def read_report(spec, config, base, validated):
         for field in METRICS:
             record[field] = numeric(source[columns[field]], config["number_format"], config["currency"],
                                     f"{spec['type']} 第 {row_number} 行 {field}", field in COUNTS)
-        require(record["clicks"] <= record["impressions"], f"第 {row_number} 行点击大于曝光；需核对报表")
-        require(record["clicks"] > 0 or record["spend"] == 0, f"第 {row_number} 行零点击有花费，需核对 SP/CPC 范围")
-        require(record["orders"] > 0 or record["sales"] == 0,
-                f"第 {row_number} 行订单为零但销售额大于零；先核对字段/归因口径")
+        quality=[]
+        if record['clicks']>record['impressions']:quality.append('clicks_exceed_impressions')
+        if record['clicks']==0 and record['spend']>0:quality.append('spend_without_clicks')
+        if record['orders']==0 and record['sales']>0:quality.append('sales_without_orders')
+        if config.get('quality_mode','strict')=='strict':
+            require(record["clicks"] <= record["impressions"], f"第 {row_number} 行点击大于曝光；需核对报表")
+            require(record["clicks"] > 0 or record["spend"] == 0, f"第 {row_number} 行零点击有花费，需核对 SP/CPC 范围")
+            require(record["orders"] > 0 or record["sales"] == 0,
+                    f"第 {row_number} 行订单为零但销售额大于零；先核对字段/归因口径")
+        record['quality_issues']=quality
         window_end = datetime.combine(day + timedelta(days=window+1), time.min, tzinfo=zone) + timedelta(hours=lag)
         record.update({"mature":window_end <= asof.astimezone(zone), "source_row":row_number,
                        "maturity_after":window_end.isoformat()})
+        if config.get('timezone_confirmed',True) is False:
+            record.update({'mature':False,'maturity_after':None})
+        if quality:record['mature']=False
         mapped_rows.append(record)
     observed_dates = sorted({r["date"] for r in mapped_rows if r["date"] is not None})
     info = {"type":spec["type"], "path":str(path), "sha256":hashlib.sha256(path.read_bytes()).hexdigest(),
             "size_bytes":path.stat().st_size, "sheet":sheet, "generated_at":spec["generated_at"],
             "columns":columns, "extra_dimensions":extras, "granularity":granularity,
-            "row_count":len(mapped_rows), "scope_confirmed":True,
+            "row_count":len(mapped_rows), "raw_row_count":raw_row_count,"row_filter":filters,"scope_confirmed":True,
             "dates_with_records":observed_dates, "declared_days":(end-start).days+1,
             "scope_fields_verified_from_rows":[field for field in SCOPE if field in columns]}
     return mapped_rows, info
@@ -331,10 +364,11 @@ def group_rows(rows, kind, rules):
         if key not in grouped:
             grouped[key] = {"identity":{field:row[field] for field in TEXT if field in row},
                             "extra_dimensions":row["extra_dimensions"], "all":empty_totals(), "mature":empty_totals(),
-                            "source_rows":[], "mature_source_rows":[], "observed_dates":[], "mature_dates":[]}
+                            "source_rows":[], "mature_source_rows":[], "observed_dates":[], "mature_dates":[],"quality_issues":[]}
         group = grouped[key]
         add(group["all"], row)
         group["source_rows"].append(row["source_row"])
+        if row.get('quality_issues'):group['quality_issues'].append({'source_row':row['source_row'],'issues':row['quality_issues']})
         if row["date"] is not None:
             group["observed_dates"].append(row["date"])
         if row["mature"]:
@@ -347,7 +381,9 @@ def group_rows(rows, kind, rules):
         group["observed_dates"] = sorted(set(group["observed_dates"]))
         group["mature_dates"] = sorted(set(group["mature_dates"]))
         if kind == "search_term":
-            if group["mature_source_rows"]:
+            if group['quality_issues']:
+                group['action'],group['reason']='observe','源数据存在指标矛盾：保留原值与金额，该对象仅观察，不生成调整候选'
+            elif group["mature_source_rows"]:
                 group["action"], group["reason"] = choose_action(group["mature"], rules)
             else:
                 group["action"], group["reason"] = "observe", "没有已成熟的归因日期"
@@ -367,8 +403,16 @@ def analyze(config_path):
         rows, info = read_report(spec, config, config_path.parent, validated)
         rows_by_type[spec["type"]] = rows
         inputs.append(info)
-    require(len({i["path"] for i in inputs}) == 2 and len({i["sha256"] for i in inputs}) == 2,
-            "两种报表不能是同一文件或相同快照内容")
+    layout=config.get('input_layout','separate_files')
+    require(layout in ('separate_files','shared_xlsx_sheets'),'input_layout 未知')
+    if layout=='shared_xlsx_sheets':
+        require(len({i['path'] for i in inputs})==1 and len({i['sha256'] for i in inputs})==1 and
+                Path(inputs[0]['path']).suffix.lower()=='.xlsx' and
+                all(isinstance(i['sheet'],str) and i['sheet'] for i in inputs) and len({i['sheet'] for i in inputs})==2,
+                'shared_xlsx_sheets 需同一原生 XLSX 的两个不同显式工作表')
+    else:
+        require(len({i["path"] for i in inputs}) == 2 and len({i["sha256"] for i in inputs}) == 2,
+                "两种报表不能是同一文件或相同快照内容")
     campaign_ids = {r["campaign_id"] for r in rows_by_type["campaign"]}
     require({r["campaign_id"] for r in rows_by_type["search_term"]} <= campaign_ids,
             "搜索词存在未出现在活动报表的 campaign_id；先核对范围")
@@ -383,7 +427,14 @@ def analyze(config_path):
                         "rows":len(rows), "mature_rows":sum(r["mature"] for r in rows)}
     warnings = ["店铺/站点/广告类型等范围依赖用户确认；文件哈希只证明本次输入版本。",
                 "候选仅供人工复核，不是后台批量上传文件；广告效率不等于利润或增量效果。",
-                "当前版本仅经合成样本测试，真实店铺数据与业务阈值验证 pending。"]
+                "字段与计算验证不代表投放效果或业务阈值已验证；建议仍需人工复核。"]
+    warnings.extend(config.get('analysis_notes',[]))
+    quality_issues=[{'report_type':kind,'source_row':r['source_row'],'issues':r['quality_issues'],'observed':{field:str(r[field]) for field in METRICS}} for kind,rows in rows_by_type.items() for r in rows if r.get('quality_issues')]
+    if quality_issues:warnings.append(f'preserve_observe：保留 {len(quality_issues)} 行源数据指标矛盾；全期金额未丢弃，受影响对象只观察，问题行不计成熟数据。')
+    if config.get('timezone_confirmed',True) is False:warnings.append('业务时区未核实：timezone 仅为显式计算参考，全部数据保持未成熟观察，不生成执行候选。')
+    if layout=='shared_xlsx_sheets':warnings.append('两种逻辑报表来自同一原生工作簿的不同工作表；不按实体名称猜配 ID，也不跨层级相加。')
+    for source in inputs:
+        if source['row_filter']:warnings.append(f"{source['type']} 按显式 row_filter 选择 {source['row_count']}/{source['raw_row_count']} 行；原始全表与源行号仍保留。")
     if inputs[0]["generated_at"] != inputs[1]["generated_at"]:
         warnings.append("两表生成时刻不同，可能存在快照变化；成熟截止采用较早时刻。")
     for source in inputs:
@@ -395,7 +446,8 @@ def analyze(config_path):
         if left != right:
             warnings.append(f"两表 {metric} 覆盖不同：活动={left}，搜索词={right}；不相加、不强制抹平。")
     scope = {field:config[field] for field in ("account_alias", "marketplace", "currency", "timezone", "advertiser_type", "ad_product", "period", "attribution_window_days", "reporting_lag_hours")}
-    return {"status":"computed_pending_business_review", "scope":scope, "business_goal":config.get("business_goal"),
+    scope['timezone_confirmed']=config.get('timezone_confirmed',True)
+    return {"status":"computed_pending_business_review", "input_layout":layout,"quality_mode":config.get('quality_mode','strict'),"data_quality":quality_issues,"scope":scope, "business_goal":config.get("business_goal"),
             "maturity_as_of":validated[5].isoformat(), "rules":{k:str(v) if v is not None else None for k,v in validated[6].items()},
             "inputs":inputs, "totals":totals, "warnings":warnings,
             "campaigns":group_rows(rows_by_type["campaign"], "campaign", validated[6]),
@@ -442,7 +494,7 @@ def write_outputs(result, output):
     (output/"metrics.json").write_text(json.dumps(result, ensure_ascii=False, indent=2)+"\n",encoding="utf-8")
     fields = list(TEXT) + ["period_start","period_end","observed_dates","mature_dates","currency","attribution_window_days","maturity_as_of",
               "all_clicks","all_spend","all_orders","all_sales","mature_clicks","mature_spend","mature_orders","mature_sales","mature_acos","action","reason","review_status",
-              "source_file","source_rows","mature_source_rows","extra_dimensions","rules"]
+              "source_file","source_rows","mature_source_rows","extra_dimensions","rules","quality_issues"]
     source = next(i["path"] for i in result["inputs"] if i["type"]=="search_term")
     with (output/"candidates.csv").open("w",encoding="utf-8-sig",newline="") as stream:
         writer=csv.DictWriter(stream,fieldnames=fields)
@@ -453,6 +505,7 @@ def write_outputs(result, output):
                 for metric in ("clicks","spend","orders","sales"):
                     row[prefix+"_"+metric]=item[prefix][metric]
             row.update({key:item[key] for key in ("action","reason","review_status")})
+            row['quality_issues']=json.dumps(item.get('quality_issues',[]),ensure_ascii=False)
             row.update({"period_start":result["scope"]["period"]["start"],"period_end":result["scope"]["period"]["end"],
                         "observed_dates":json.dumps(item["observed_dates"]),"mature_dates":json.dumps(item["mature_dates"]),
                         "currency":result["scope"]["currency"],"attribution_window_days":result["scope"]["attribution_window_days"],

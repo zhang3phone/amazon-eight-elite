@@ -8,6 +8,7 @@ import shutil
 import subprocess
 from pathlib import Path
 from .common import Error, canonical, load, require
+from . import __version__
 
 def text(value):
     return "convert_from(decode('"+str(value).encode().hex()+"','hex'),'UTF8')"
@@ -91,7 +92,7 @@ class Store:
             return {'status':'already_imported','batch_id':batch}
         statements=['BEGIN;',"SELECT pg_advisory_xact_lock(hashtext('aee-ingest'));",
            'INSERT INTO aee.batches(batch_id,input_hash,scope,collection,config,engine_version) VALUES ('+
-           ','.join([text(batch),text(batch),jsonb(result['scope']),jsonb(collection),jsonb(config),text('0.1.0')])+');']
+           ','.join([text(batch),text(batch),jsonb(result['scope']),jsonb(collection),jsonb(config),text(__version__)])+');']
         for kind,blob,meta in files:
             statements.append('INSERT INTO aee.raw_files(batch_id,report_type,sha256,original_name,content,metadata) VALUES ('+
               ','.join([text(batch),text(kind),text(meta['sha256']),text(meta['original_name']),"decode('"+blob.hex()+"','hex')",jsonb(meta)])+');')
@@ -117,7 +118,7 @@ class Store:
         query="""SELECT json_build_object('files',(SELECT count(*) FROM aee.raw_files WHERE batch_id={b}),'rows',(SELECT count(*) FROM aee.raw_rows WHERE batch_id={b}),'groups',(SELECT count(*) FROM aee.ad_groups WHERE batch_id={b}),'analyses',(SELECT count(*) FROM aee.analysis_runs WHERE batch_id={b}),'bytes',(SELECT coalesce(sum(octet_length(content)),0) FROM aee.raw_files WHERE batch_id={b}),'raw_file_hashes_match',(SELECT coalesce(bool_and(encode(sha256(content),'hex')=sha256),false) FROM aee.raw_files WHERE batch_id={b}));""".format(b=text(batch))
         import json
         result=json.loads(self.sql(query));require(result['files']==2 and result['analyses']==1 and result['raw_file_hashes_match'],'批次验收失败')
-        expected=self.sql('SELECT json_build_object(\'rows\',(result->\'totals\'->\'campaign\'->>\'rows\')::int+(result->\'totals\'->\'search_term\'->>\'rows\')::int,\'groups\',jsonb_array_length(result->\'campaigns\')+jsonb_array_length(result->\'search_terms\')) FROM aee.analysis_runs WHERE batch_id='+text(batch)+';')
+        expected=self.sql("SELECT json_build_object('rows',(SELECT sum(coalesce((i->>'raw_row_count')::int,(i->>'row_count')::int)) FROM jsonb_array_elements(result->'inputs') i),'groups',jsonb_array_length(result->'campaigns')+jsonb_array_length(result->'search_terms')) FROM aee.analysis_runs WHERE batch_id="+text(batch)+';')
         expected=json.loads(expected)
         require(result['rows']==expected['rows'] and result['groups']==expected['groups'],'原始行或指标分组计数不一致')
         return result

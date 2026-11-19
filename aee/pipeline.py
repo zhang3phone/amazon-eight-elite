@@ -5,6 +5,7 @@ from .common import canonical,digest,load,new_dir,require,write_new
 from .report import html_report
 from .store import Store
 from .bounded import read_bounded
+from . import __version__
 
 def run(config_path,manifest_path,database_path,output):
     import tempfile
@@ -22,17 +23,26 @@ def _run_snapshot(config_path,manifest_path,database_path,output,snapshot):
     require(len(entries)==2 and {m['type'] for m in entries}=={'campaign','search_term'},'需两份不同类型采集记录')
     import copy
     snapshot_config=copy.deepcopy(config)
-    blobs={}
+    blobs={};snapshot_files={}
+    if config.get('input_layout')=='shared_xlsx_sheets':
+        require(len({(config_path.parent/r['path']).resolve() for r in config['reports']})==1,
+                '共享工作簿配置必须明确指向同一原件路径')
     for spec in snapshot_config['reports']:
         path=(config_path.parent/spec['path']).resolve();blob=read_bounded(path)
         meta=next(m for m in entries if m['type']==spec['type'])
         require(meta.get('generated_at')==spec.get('generated_at'),'采集与分析声明的报表生成时刻不同')
         require(digest(blob)==meta['sha256'] and len(blob)==meta['bytes'],'分析输入与采集归档版本不一致')
-        dest=snapshot/(spec['type']+path.suffix.lower());dest.write_bytes(blob)
+        key=(digest(blob),path.suffix.lower())
+        if key not in snapshot_files:
+            dest=snapshot/('source-'+str(len(snapshot_files))+path.suffix.lower());dest.write_bytes(blob);snapshot_files[key]=dest
+        dest=snapshot_files[key]
         blobs[spec['type']]=blob;spec['path']=dest.name
     snapshot_path=snapshot/'config.json';write_new(snapshot_path,snapshot_config)
     result=sp_engine.analyze(snapshot_path)
-    for source in result['inputs']:source['path']='raw_file:'+source['type']+':'+source['sha256']
+    for source in result['inputs']:
+        meta=next(m for m in entries if m['type']==source['type'])
+        if 'sheet' in meta:require(meta['sheet']==source['sheet'],'采集与分析实际选用的工作表不一致')
+        source['path']='raw_file:'+source['type']+':'+source['sha256']
     normalized=copy.deepcopy(config)
     for report in normalized['reports']:report.pop('path',None)
     files=[];records={}
@@ -50,7 +60,7 @@ def _run_snapshot(config_path,manifest_path,database_path,output,snapshot):
         meta=next(r for r in manifest['reports'] if r['type']==spec['type'])
         files.append((spec['type'],blob,meta))
     # Logical idempotency: source/config/version, not output path or capture time.
-    batch=digest(canonical({'engine':'0.1.0','config':normalized,'files':{k:m['sha256'] for k,_,m in files},'source':manifest['source']}).encode())
+    batch=digest(canonical({'engine':__version__,'config':normalized,'files':{k:m['sha256'] for k,_,m in files},'source':manifest['source']}).encode())
     html=html_report(result,batch,manifest['source']=='synthetic')
     store=Store(database_path);store.ready()
     require(not Path(output).exists(),'输出目录已存在，禁止覆盖')

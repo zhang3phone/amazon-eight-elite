@@ -1,0 +1,96 @@
+{
+  "account_alias": null,
+  "marketplace": null,
+  "currency": null,
+  "timezone": null,
+  "advertiser_type": null,
+  "ad_product": "SP",
+  "period": {
+    "start": null,
+    "end": null
+  },
+  "attribution_window_days": null,
+  "reporting_lag_hours": 24,
+  "number_format": "decimal_dot",
+  "business_goal": null,
+  "rules": {
+    "target_acos": null,
+    "minimum_clicks": null,
+    "minimum_orders": null,
+    "zero_order_spend_limit": null
+  },
+  "reports": [
+    {
+      "type": "campaign",
+      "path": null,
+      "generated_at": null,
+      "scope_confirmed": false,
+      "granularity": "summary",
+      "sheet": "Sponsored Products Campaigns",
+      "header_row": 1,
+      "date_format": "%Y-%m-%d",
+      "encoding": "utf-8-sig",
+      "delimiter": null,
+      "extra_dimensions": [],
+      "columns": {
+        "campaign_id": "Campaign ID",
+        "campaign_name": "Campaign Name",
+        "impressions": "Impressions",
+        "clicks": "Clicks",
+        "spend": "Spend",
+        "orders": "Orders",
+        "sales": "Sales"
+      },
+      "row_filter": {
+        "Product": [
+          "Sponsored Products"
+        ],
+        "Entity": [
+          "Campaign"
+        ]
+      }
+    },
+    {
+      "type": "search_term",
+      "path": null,
+      "generated_at": null,
+      "scope_confirmed": false,
+      "granularity": "summary",
+      "sheet": "SP Search Term Report",
+      "header_row": 1,
+      "date_format": "%Y-%m-%d",
+      "encoding": "utf-8-sig",
+      "delimiter": null,
+      "extra_dimensions": [
+        "Keyword ID",
+        "Product Targeting ID",
+        "Keyword Text",
+        "Match Type",
+        "Product Targeting Expression"
+      ],
+      "columns": {
+        "campaign_id": "Campaign ID",
+        "campaign_name": "Campaign Name (Informational only)",
+        "impressions": "Impressions",
+        "clicks": "Clicks",
+        "spend": "Spend",
+        "orders": "Orders",
+        "sales": "Sales",
+        "ad_group_id": "Ad Group ID",
+        "search_term": "Customer Search Term",
+        "ad_group_name": "Ad Group Name (Informational only)"
+      },
+      "row_filter": {
+        "Product": [
+          "Sponsored Products"
+        ]
+      }
+    }
+  ],
+  "input_layout": "shared_xlsx_sheets",
+  "timezone_confirmed": false,
+  "analysis_notes": [
+    "按实际界面与字段核对期间、归因窗口与业务时区；未核实不生成成熟候选。"
+  ],
+  "quality_mode": "strict"
+}
