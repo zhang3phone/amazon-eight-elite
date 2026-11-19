@@ -124,9 +124,14 @@ python3 -m aee install-skills --target "$HOME/.codex/skills" --apply
 
 ### 安装完成后：补充选品数据源
 
-选品增强提醒：建议对接卖家精灵、SIF，补充市场、关键词和竞品数据，以获得更好的选品分析。请按服务实际支持的 MCP、API 或导出报表方式接入；本版未内置这两项连接器。未接入时仍可使用自有店铺数据，但不能据此推断完整市场机会。
+建议连接卖家精灵、SIF的官方MCP，补充市场、关键词和竞品数据。
 
-请使用自己的账号和已授权数据；接口权限、套餐和费用以实际服务为准，不自动注册、购买或保存凭据。
+```sh
+python3 -m aee research-mcp --provider both
+python3 -m aee research-mcp --provider both --apply
+```
+
+用户在本机终端隐藏输入自己的MCP Key；不发到聊天，不使用带Key的命令参数。向导保留原Codex配置，私有文件权限0600；不执行网络查询。完整的Key获取、存储位置、回滚与连接验收见[选品MCP接入说明](RESEARCH_MCP.md)。
 
 ## 6. 使用真实紫鸟数据
 

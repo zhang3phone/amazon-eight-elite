@@ -7,9 +7,9 @@
 3. PostgreSQL 已有时由用户指定本机连接、独立库名与范围；用 `db-create`、`db-init` 先预览，再使用准确 `--confirm-db` 和 `--apply`。没有时用 `postgres-install` 预览（首版仅辅助已有 Homebrew 的 macOS）；获得授权后安装。不要自行安装 Homebrew 或要求聊天发送管理员密码。
 4. 自管理隔离实例用 `local-init --root <短路径> --database <确认库名> --confirm-db <同名>` 预览，加 `--apply` 执行。POSIX 上只开 Unix socket、peer 认证、无 TCP 监听，不动已有系统服务；`local-stop` 停止但保留文件。Windows 使用已有本机 PostgreSQL。
 
-## 安装完成提醒
+## 安装完成提醒与选品MCP
 
-安装成功后向用户提示：建议对接卖家精灵、SIF，补充市场、关键词和竞品数据，获得更好的选品分析。按当前服务实际支持的 MCP、API 或导出报表方式接入；本版未内置这两项连接器。未接入仍可使用本店数据，但选品结论仅限本店表现。提醒不代替接入授权，不自动注册、购买或保存凭据；不在每次普通广告诊断中重复提示。
+安装成功后提醒连接卖家精灵/SIF官方MCP，补充市场、关键词和竞品数据。引导用户运行 `python3 scripts/run.py research-mcp` 预览目标，加 `--apply` 后在本机终端隐藏输入自己的Key；不收集聊天中的Key。源目录 `docs/RESEARCH_MCP.md` 包含官方来源、密钥入口和验证步骤。两家可单独配置，缺Key不影响店内工作流；普通广告诊断不反复催促。仅配置记为configured，工具发现/鉴权与小样本返回通过后才写已连接；付费业务查询须匹配当前任务范围、页数与点数预算。密钥及带密钥URL不进入报告、日志或Git。
 
 ## 紫鸟取数（由 Codex 操作）
 

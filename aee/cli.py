@@ -8,6 +8,7 @@ def main(argv=None):
     p=argparse.ArgumentParser(description='亚马逊八项全能精英：本地工具；不执行店铺后台变更')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('doctor')
+    q=sub.add_parser('research-mcp');q.add_argument('--provider',choices=['sellersprite','sif','both'],default='both');q.add_argument('--config',default=str(Path.home()/'.codex/config.toml'));q.add_argument('--apply',action='store_true')
     q=sub.add_parser('postgres-install');q.add_argument('--apply',action='store_true')
     for command in ('local-init','local-stop'):
         q=sub.add_parser(command);q.add_argument('--root',required=True);q.add_argument('--apply',action='store_true')
@@ -25,7 +26,10 @@ def main(argv=None):
     try:
         from . import setup
         from .store import Store
-        if a.command=='doctor':r=setup.doctor()
+        if a.command=='research-mcp':
+            from .research_mcp import configure
+            r=configure(a.provider,a.config,a.apply)
+        elif a.command=='doctor':r=setup.doctor()
         elif a.command=='postgres-install':r=setup.install_postgres(a.apply)
         elif a.command=='local-init':r=setup.local_init(a.root,a.database,a.confirm_db,a.apply)
         elif a.command=='local-stop':r=setup.local_stop(a.root,a.apply)
@@ -47,6 +51,8 @@ def main(argv=None):
         elif a.command=='db-verify':r=Store(a.db).verify(a.batch)
         elif a.command=='export-html':write_new(a.output,Store(a.db).report(a.batch));r={'status':'exported','output':a.output}
         print(json.dumps(r,ensure_ascii=False,indent=2));return 0
+    except KeyboardInterrupt:
+        print(json.dumps({'status':'cancelled','shop_changes':False},ensure_ascii=False),file=sys.stderr);return 130
     except (Error,ValueError,OSError,KeyError,TypeError) as exc:
         # Errors from parsing may contain source values; do not print raw rows.
         from .sp_engine import InputError

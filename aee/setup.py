@@ -83,4 +83,4 @@ def install_skills(target,apply=False):
             for dest in reversed(created):shutil.rmtree(dest)
             raise
     return {'status':'installed','skills':len(sources),'runtime_must_remain':str(ROOT),
-            'post_install_notice':'选品增强提醒：建议对接卖家精灵、SIF，补充市场、关键词和竞品数据，以获得更好的选品分析。请按服务实际支持的 MCP、API 或导出报表方式接入；本版未内置这两项连接器。未接入时仍可使用自有店铺数据，但不能据此推断完整市场机会。'}
+            'post_install_notice':'选品增强：卖家精灵和 SIF 已有官方 MCP。运行 python3 -m aee research-mcp 预览；加 --apply 后在本机终端隐藏输入自己的 MCP Key。配置不等于连接验收；步骤见 docs/RESEARCH_MCP.md。'}

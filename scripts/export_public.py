@@ -16,7 +16,7 @@ def allowed(p):
     if parts[0]=='aee':return len(parts)==2 and p.suffix in ('.py','.sql')
     if parts[0]=='skills':return p.name in ('SKILL.md','openai.yaml','run.py') or ('references'in parts and p.suffix=='.md')
     if parts[0]=='tests':return len(parts)==2 and p.name.startswith('test_') and p.suffix=='.py'
-    if parts[0]=='docs':return len(parts)==2 and p.name in {'INSTALL.md','VALIDATION.md','demo-report.html','diagnosis-rules.md','guide.html','report-contract.md'}
+    if parts[0]=='docs':return len(parts)==2 and p.name in {'INSTALL.md','RESEARCH_MCP.md','VALIDATION.md','demo-report.html','diagnosis-rules.md','guide.html','report-contract.md'}
     if parts[0]=='examples':return rel.as_posix() in {'examples/collection.template.json','examples/db.template.json','examples/native-bulk.template.json','examples/sp-input.template.json','examples/synthetic/campaign.csv','examples/synthetic/search_term.csv','examples/synthetic/request.json','examples/synthetic/sp-input.json'}
     if parts[0]=='scripts':return len(parts)==2 and p.name=='export_public.py'
     return False

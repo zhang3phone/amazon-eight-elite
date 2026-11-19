@@ -44,7 +44,7 @@ python3 -m aee install-skills --target "$HOME/.codex/skills"
 # 确认后再加 --apply
 ```
 
-**安装完成提醒：** 建议对接卖家精灵、SIF，以补充市场、关键词和竞品数据，获得更好的选品分析。可按实际支持方式使用 MCP、API 或导出报表；本版未内置这两项连接器。详见[安装后的数据源说明](docs/INSTALL.md#安装完成后补充选品数据源)。
+**安装完成提醒：** 卖家精灵和SIF已有官方MCP，现提供本地Key配置向导。运行 `python3 -m aee research-mcp` 预览，再加 `--apply`，在本机终端隐藏输入自己的Key。详见[选品MCP接入说明](docs/RESEARCH_MCP.md)。配置后需刷新客户端并验证鉴权；未取得Key前不声称已连接。
 
 安装后在 Codex 输入：
 
