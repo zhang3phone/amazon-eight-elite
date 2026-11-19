@@ -127,11 +127,11 @@ python3 -m aee install-skills --target "$HOME/.codex/skills" --apply
 建议连接卖家精灵、SIF的官方MCP，补充市场、关键词和竞品数据。
 
 ```sh
-python3 -m aee research-mcp --provider both
-python3 -m aee research-mcp --provider both --apply
+python3 -m aee research-mcp-ui --provider both
+python3 -m aee research-mcp-ui --provider both --apply
 ```
 
-用户在本机终端隐藏输入自己的MCP Key；不发到聊天，不使用带Key的命令参数。向导保留原Codex配置，私有文件权限0600；不执行网络查询。完整的Key获取、存储位置、回滚与连接验收见[选品MCP接入说明](RESEARCH_MCP.md)。
+用户在本机浏览器密码框填写自己的MCP Key（也可用 research-mcp 终端入口）；不发到聊天，不使用带Key的命令参数。向导保留原Codex配置，私有文件权限0600；不执行网络查询。完整的Key获取、存储位置、回滚与连接验收见[选品MCP接入说明](RESEARCH_MCP.md)。
 
 ## 6. 使用真实紫鸟数据
 

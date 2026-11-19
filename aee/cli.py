@@ -8,6 +8,7 @@ def main(argv=None):
     p=argparse.ArgumentParser(description='亚马逊八项全能精英：本地工具；不执行店铺后台变更')
     sub=p.add_subparsers(dest='command',required=True)
     sub.add_parser('doctor')
+    q=sub.add_parser('research-mcp-ui');q.add_argument('--provider',choices=['sellersprite','sif','both'],default='both');q.add_argument('--config',default=str(Path.home()/'.codex/config.toml'));q.add_argument('--apply',action='store_true');q.add_argument('--no-browser',action='store_true');q.add_argument('--timeout',type=int,default=600)
     q=sub.add_parser('research-mcp');q.add_argument('--provider',choices=['sellersprite','sif','both'],default='both');q.add_argument('--config',default=str(Path.home()/'.codex/config.toml'));q.add_argument('--apply',action='store_true')
     q=sub.add_parser('postgres-install');q.add_argument('--apply',action='store_true')
     for command in ('local-init','local-stop'):
@@ -26,7 +27,10 @@ def main(argv=None):
     try:
         from . import setup
         from .store import Store
-        if a.command=='research-mcp':
+        if a.command=='research-mcp-ui':
+            from .research_mcp_web import serve
+            r=serve(a.provider,a.config,a.apply,not a.no_browser,a.timeout)
+        elif a.command=='research-mcp':
             from .research_mcp import configure
             r=configure(a.provider,a.config,a.apply)
         elif a.command=='doctor':r=setup.doctor()
@@ -50,7 +54,7 @@ def main(argv=None):
             r=run(a.config,a.collection,a.db,a.output)
         elif a.command=='db-verify':r=Store(a.db).verify(a.batch)
         elif a.command=='export-html':write_new(a.output,Store(a.db).report(a.batch));r={'status':'exported','output':a.output}
-        print(json.dumps(r,ensure_ascii=False,indent=2));return 0
+        print(json.dumps(r,ensure_ascii=False,indent=2));return 2 if r.get('status')=='expired' else 0
     except KeyboardInterrupt:
         print(json.dumps({'status':'cancelled','shop_changes':False},ensure_ascii=False),file=sys.stderr);return 130
     except (Error,ValueError,OSError,KeyError,TypeError) as exc:

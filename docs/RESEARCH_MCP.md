@@ -13,7 +13,22 @@
 
 官方依据（2026-11-19核对）：[卖家精灵接口文档](https://www.sellersprite.com/v3/knowledge/feature/mcp-interface-description)、[SIF安装文档](https://blog.sif.com/article/mcp-install/Sif-MCP安装文档)、[Codex MCP配置](https://developers.openai.com/codex/mcp)。卖家精灵使用 `secret-key` 请求头；SIF当前官方示例同时在URL查询参数与请求头配置密钥。本向导按该示例生成，回执不打印带密钥URL。不要把完整配置、`codex mcp get` 的输出或连接日志贴到聊天/GitHub。
 
-## 2. 在本地终端提交 Key
+## 2A. 在本地浏览器填写 Key（推荐）
+
+```sh
+# 先预览：不启动监听、不读取或保存Key
+python3 -m aee research-mcp-ui --provider both
+# 确认后打开本机表单
+python3 -m aee research-mcp-ui --provider both --apply
+```
+
+自动打开默认浏览器，使用密码框填写。仅监听127.0.0.1的随机端口；默认10分钟到期，成功保存后输入服务自动关闭，不留密钥回执文件。地址只在当前电脑可用。不能控制终端的Codex环境可启动此命令，再使用输出的本地地址打开浏览器，让用户亲自填写，不让AI代填或读取Key。
+
+可加 `--no-browser` 仅显示本地地址、由用户或Codex打开；`--timeout 600` 设置10—3600秒有效期；`--provider sellersprite` / `sif` 可只填一家。`--config` 选择私有配置目标。未提交而关闭页面不会写入，进程到期结束（退出码2）；也可Ctrl+C取消。表单不是HTTPS远程服务，不提供公网/局域网绑定选项，不应通过隧道公开。
+
+表单检查Host、Origin和一次性页面校验令牌，限制请求大小，禁用缓存与访问日志，不引用外部脚本。提交后仅保存配置，不验证Key、不远程取数或自动消费点数；真实验收按第3节另行进行。保持浏览器与本机环境可信，勿分享完整配置或带Key的URL。
+
+## 2B. 在本地终端提交 Key（可选）
 
 在完整源码目录运行，先预览：
 

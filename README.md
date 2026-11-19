@@ -44,7 +44,7 @@ python3 -m aee install-skills --target "$HOME/.codex/skills"
 # 确认后再加 --apply
 ```
 
-**安装完成提醒：** 卖家精灵和SIF已有官方MCP，现提供本地Key配置向导。运行 `python3 -m aee research-mcp` 预览，再加 `--apply`，在本机终端隐藏输入自己的Key。详见[选品MCP接入说明](docs/RESEARCH_MCP.md)。配置后需刷新客户端并验证鉴权；未取得Key前不声称已连接。
+**安装完成提醒：** 卖家精灵和SIF已有官方MCP，现提供本地Key配置向导。运行 `python3 -m aee research-mcp-ui` 预览，再加 `--apply`，打开本机浏览器密码框填写自己的Key；另保留 `research-mcp` 终端入口。详见[选品MCP接入说明](docs/RESEARCH_MCP.md)。配置后需刷新客户端并验证鉴权；未取得Key前不声称已连接。
 
 安装后在 Codex 输入：
 

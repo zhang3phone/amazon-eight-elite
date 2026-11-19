@@ -28,6 +28,10 @@ def _read(path):
         require(info.st_uid==os.getuid(),'配置文件须属于当前用户')
         return f.read(),info
 
+def validate_key(key):
+    require(isinstance(key,str) and bool(key) and len(key)<=4096 and all(33<=ord(c)<=126 for c in key),'Key 不能为空或包含空白/控制字符；请重新在本机提交')
+    return key
+
 def _key(label):
     require(sys.stdin.isatty(),'请在本机交互终端输入 Key，不支持聊天、命令参数或管道输入')
     with warnings.catch_warnings():
@@ -36,10 +40,9 @@ def _key(label):
             key=getpass.getpass(f'{label} MCP Key（隐藏输入）：')
         except (EOFError,getpass.GetPassWarning) as exc:
             raise Error('无法隐藏输入，已停止；请改用本机交互终端') from None
-    require(bool(key) and len(key)<=4096 and all(33<=ord(c)<=126 for c in key),'Key 不能为空或包含空白/控制字符；请重新在本机提交')
-    return key
+    return validate_key(key)
 
-def configure(provider,config,apply=False):
+def configure(provider,config,apply=False,*,key_reader=None):
     require(provider in (*PROVIDERS,'both'),'请选择 sellersprite、sif 或 both')
     selected=list(PROVIDERS) if provider=='both' else [provider]
     path=Path(config).expanduser().absolute()
@@ -73,7 +76,7 @@ def configure(provider,config,apply=False):
             require(not any(isinstance(v,dict) and host in str(v.get('url','')).split('/')[2:3] for v in servers.values()),'已有该官方服务配置，请在客户端复用，不重复添加')
         chunks=[]
         for p in selected:
-            spec=PROVIDERS[p];key=_key(spec['name'])
+            spec=PROVIDERS[p];key=validate_key((key_reader or _key)(spec['name']))
             url=spec['url']+('?' + urlencode({'secret-key':key}) if p=='sif' else '')
             chunks.append('\n[mcp_servers.'+spec['server']+']\nurl = '+json.dumps(url)+'\nhttp_headers = { "secret-key" = '+json.dumps(key)+' }\n')
         merged=original.decode('utf-8').rstrip()+'\n'+''.join(chunks)

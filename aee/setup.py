@@ -83,4 +83,4 @@ def install_skills(target,apply=False):
             for dest in reversed(created):shutil.rmtree(dest)
             raise
     return {'status':'installed','skills':len(sources),'runtime_must_remain':str(ROOT),
-            'post_install_notice':'选品增强：卖家精灵和 SIF 已有官方 MCP。运行 python3 -m aee research-mcp 预览；加 --apply 后在本机终端隐藏输入自己的 MCP Key。配置不等于连接验收；步骤见 docs/RESEARCH_MCP.md。'}
+            'post_install_notice':'选品增强：卖家精灵和 SIF 已有官方 MCP。运行 python3 -m aee research-mcp-ui 预览；加 --apply 后在本机浏览器密码框填写自己的 MCP Key（也可使用 research-mcp 终端入口）。配置不等于连接验收；步骤见 docs/RESEARCH_MCP.md。'}
